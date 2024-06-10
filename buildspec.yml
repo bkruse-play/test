@@ -1,11 +1,21 @@
 version: 0.2
 
 phases:
+  pre-build:
+    commands:
+      - echo Logging in to Amazon ECR
+      - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 254238450619.dkr.ecr.us-east-1.amazonaws.com
   build:
     commands:
-      - echo "Building Docker image..."
-      - docker build -t hello-world .
-
+      - echo Build started on 'date'
+      - echo Building the Docker image...
+      - docker build -t gss-test:$CODEBUILD_RESOLVED_SOURCE_VERSION .
+      - docker tag gss-test:$CODEBUILD_RESOLVED_SOURCE_VERSION 254238450619.dkr.ecr.us-east-1.amazonaws.com/gss-test:$CODEBUILD_RESOLVED_SOURCE_VERSION
+  post_build:
+    commands:
+      echo Build complete on 'date'
+      echo Pushing the docker image
+      docker push 254238450619.dkr.ecr.us-east-1.amazonaws.com/gss-test:$CODEBUILD_RESOLVED_SOURCE_VERSION
 artifacts:
   files:
     - '*'
