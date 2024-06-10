@@ -11,8 +11,10 @@ phases:
       - echo Building the Docker image...
       - docker build -t gss-test:$CODEBUILD_RESOLVED_SOURCE_VERSION .
       - docker tag gss-test:$CODEBUILD_RESOLVED_SOURCE_VERSION 254238450619.dkr.ecr.us-east-1.amazonaws.com/gss-test:$CODEBUILD_RESOLVED_SOURCE_VERSION
+      - docker tag gss-test:$CODEBUILD_RESOLVED_SOURCE_VERSION 254238450619.dkr.ecr.us-east-1.amazonaws.com/gss-test:latest
   post_build:
     commands:
       - echo Build completed on `date`
       - echo Pushing the Docker image...
       - docker push 254238450619.dkr.ecr.us-east-1.amazonaws.com/gss-test:$CODEBUILD_RESOLVED_SOURCE_VERSION
+      - docker push 254238450619.dkr.ecr.us-east-1.amazonaws.com/gss-test:latest
