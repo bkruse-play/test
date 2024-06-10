@@ -1,0 +1,11 @@
+version: 0.2
+
+phases:
+  build:
+    commands:
+      - echo "Building Docker image..."
+      - docker build -t hello-world .
+
+artifacts:
+  files:
+    - '*'
